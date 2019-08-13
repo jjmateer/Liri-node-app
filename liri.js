@@ -25,7 +25,7 @@ switch (input1) {
         movie()
         break;
     //do-what-it-says
-    case "dwit":
+    case "dwis":
         doWhatSay();
         break;
 }
@@ -64,19 +64,22 @@ function movie() {
     });
 }
 function doWhatSay() {
-    fs.readFile("random.txt", "utf8", function(err, data) {
+    fs.readFile("random.txt", "utf8", function (err, data) {
         if (err) {
-          return console.log(err);
+            return console.log(err);
         }
-      
-        // Break the string down by comma separation and store the contents into the output array.
         var output = data.split(",");
-      
-        // Loop Through the newly created output array
         for (var i = 0; i < output.length; i++) {
-      
-          // Print each element (item) of the array/
-          console.log(output[i]);
+            console.log(output[i]);
         }
-      });
+        spotify.search({ type: "track", query: output[1], limit: 1 }, function (err, data) {
+            if (err) {
+                return console.log('Error occurred: ' + err);
+            }
+
+            console.log(data.name);
+            console.log(JSON.stringify(data, null, 2));
+        });
+
+    });
 }
