@@ -3,6 +3,7 @@ var axios = require("axios");
 var keys = require("./keys.js");
 var Spotify = require('node-spotify-api');
 var request = require("request");
+var fs = require("fs");
 var spotify = new Spotify(keys.spotify);
 var input1 = process.argv[2];
 var input2 = process.argv[3];
@@ -24,7 +25,8 @@ switch (input1) {
         movie()
         break;
     //do-what-it-says
-    case "do-what-it-says":
+    case "dwit":
+        doWhatSay();
         break;
 }
 function concert() {
@@ -60,5 +62,21 @@ function movie() {
 
         }
     });
-
+}
+function doWhatSay() {
+    fs.readFile("random.txt", "utf8", function(err, data) {
+        if (err) {
+          return console.log(err);
+        }
+      
+        // Break the string down by comma separation and store the contents into the output array.
+        var output = data.split(",");
+      
+        // Loop Through the newly created output array
+        for (var i = 0; i < output.length; i++) {
+      
+          // Print each element (item) of the array/
+          console.log(output[i]);
+        }
+      });
 }
