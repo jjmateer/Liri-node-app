@@ -5,12 +5,21 @@ var Spotify = require('node-spotify-api');
 var request = require("request");
 var fs = require("fs");
 var spotify = new Spotify(keys.spotify);
+var nodeArgs = process.argv;
 var input1 = process.argv[2];
 var input2 = process.argv[3];
-var input3 = process.argv[4];
 var queryURL1 = "https://rest.bandsintown.com/artists/" + input2 + "/events?app_id=codingbootcamp"
 // var queryURL2 = "https://api.spotify.com/v1/tracks/7yCPwWs66K8Ba5lFuU2bcx"
 var queryUrl = "http://www.omdbapi.com/?t=" + input2 + "&y=&plot=short&apikey=trilogy";
+// var SongName = "";
+// for (var i = 3; i < nodeArgs.length; i++) {
+//     if (i > 3 && i < nodeArgs.length) {
+//         SongName = SongName + "+" + nodeArgs[i];
+//     }
+//     else {
+//         SongName += nodeArgs[i];
+//     }
+// }
 switch (input1) {
     //concert-this
     case "ct":
@@ -37,25 +46,17 @@ function concert() {
         })
 }
 function spotifySong() {
-    spotify.search({ type: input2, query: input3, limit: 1 }, function (err, data) {
+    spotify.search({ type: 'track', query: input2, limit: 1 }, function (err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-        if (input2 === "track") {
-            console.log(data.tracks.items);
+        for (var i = 0; i < data.tracks.items.length; i++) {
+            var songData = data.tracks.items[i];
+            console.log("Artist: " + songData.artists[0].name);
+            console.log("Song Title: " + songData.name);
+            console.log("Preview Track: " + songData.preview_url);
+            console.log("Album: " + songData.album.name);
         }
-        if (input2 === "album") {
-            console.log(data.albums.items);
-        }
-        if (input2 === "artist") {
-            console.log(data.artists.items);
-        }
-        // console.log(JSON.stringify(data))
-        // console.log(JSON.stringify(data, null, 2));
-        // console.log(data.object['tracks'])
-        // console.log(data.body);    // Prints the JSON object
-        // var object = JSON.parse(body);
-        // console.log(object['item']) // Prints the country value from the JSON object
     })
 }
 
