@@ -31,9 +31,9 @@ switch (input1) {
 }
 function concert() {
     axios.get(queryURL1).then(
-        function (response) {
-            console.log(response)
-            // console.log(JSON.stringify(response, null, 2));
+        function (body) {
+            console.log(body)
+
         })
 }
 function spotifySong() {
@@ -41,14 +41,26 @@ function spotifySong() {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-
-        console.log(data.name);
-        console.log(JSON.stringify(data, null, 2));
-    });
-
+        if (input2 === "track") {
+            console.log(data.tracks.items);
+        }
+        if (input2 === "album") {
+            console.log(data.albums.items);
+        }
+        if (input2 === "artist") {
+            console.log(data.artists.items);
+        }
+        // console.log(JSON.stringify(data))
+        // console.log(JSON.stringify(data, null, 2));
+        // console.log(data.object['tracks'])
+        // console.log(data.body);    // Prints the JSON object
+        // var object = JSON.parse(body);
+        // console.log(object['item']) // Prints the country value from the JSON object
+    })
 }
+
 function movie() {
-    request(queryUrl, function (error, response, body) {
+    request(queryUrl, function (err, response, body) {
         console.log("Title: " + JSON.parse(body).Title);
         console.log("Release Year: " + JSON.parse(body).Year);
         console.log("Rating: " + JSON.parse(body).imdbRating);
@@ -56,10 +68,8 @@ function movie() {
         console.log("Language: " + JSON.parse(body).Language);
         console.log("Plot: " + JSON.parse(body).Plot);
         console.log("Actors: " + JSON.parse(body).Actors);
-        if (error) {
-            console.log('error');
-
-
+        if (err) {
+            console.log('err');
         }
     });
 }
@@ -74,9 +84,8 @@ function doWhatSay() {
         }
         spotify.search({ type: "track", query: output[1], limit: 1 }, function (err, data) {
             if (err) {
-                return console.log('Error occurred: ' + err);
+                return console.log('err occurred: ' + err);
             }
-
             console.log(data.name);
             console.log(JSON.stringify(data, null, 2));
         });
