@@ -39,9 +39,6 @@ switch (input) {
 function concert() {
     axios.get("https://rest.bandsintown.com/artists/" + multWord + "/events?app_id=codingbootcamp").then(
         function (response) {
-            // if (err) {
-            //     return console.log('Error occurred: ' + err);
-            // }
             for (var i = 0; i < response.data.length; i++) {
                 console.log("Searched: " + multWord)
                 console.log("Venue Name: " + response.data[i].venue.name);
@@ -49,7 +46,6 @@ function concert() {
                 console.log("Date of Event: " + moment(response.data[i].datetime).format("L"));
                 console.log('=======================================')
             }
-
         })
 }
 function spotifySong() {
@@ -64,22 +60,31 @@ function spotifySong() {
             console.log("Song Title: " + songData.name);
             console.log("Preview Track: " + songData.preview_url);
             console.log("Album: " + songData.album.name);
+            console.log('=======================================')
         }
     })
 }
 
 function movie() {
-    request("http://www.omdbapi.com/?t=" + multWord + "&y=&plot=short&apikey=trilogy", function (err, response, body) {
-        console.log("Title: " + JSON.parse(body).Title);
-        console.log("Release Year: " + JSON.parse(body).Year);
-        console.log("Rating: " + JSON.parse(body).imdbRating);
-        console.log("Produced in: " + JSON.parse(body).Country);
-        console.log("Language: " + JSON.parse(body).Language);
-        console.log("Plot: " + JSON.parse(body).Plot);
-        console.log("Actors: " + JSON.parse(body).Actors);
-        if (err) {
-            return console.log('Error occurred: ' + err);
-        }
+    axios.get("http://www.omdbapi.com/?t=" + multWord + "&y=&plot=short&apikey=trilogy").then(
+        function (response) {
+            console.log("Title: " + response.data.Title)
+            console.log("Released: " + response.data.Year)
+            console.log("IMDB rating: " + response.data.imdbRating)
+            console.log("Rotten tomatoes rating: " + response.data.tomatoRating)
+            console.log("Plot: " + response.data.Plot)
+            console.log("Actors: " + response.data.Actors)
+            //Used request instead of axios at first. Works with same url too.
+        // console.log("Title: " + JSON.parse(body).Title);
+        // console.log("Release Year: " + JSON.parse(body).Year);
+        // console.log("Rating: " + JSON.parse(body).imdbRating);
+        // console.log("Produced in: " + JSON.parse(body).Country);
+        // console.log("Language: " + JSON.parse(body).Language);
+        // console.log("Plot: " + JSON.parse(body).Plot);
+        // console.log("Actors: " + JSON.parse(body).Actors);
+        // if (err) {
+        //     return console.log('Error occurred: ' + err);
+        // }
     });
 }
 function doWhatSay() {
@@ -91,18 +96,15 @@ function doWhatSay() {
         for (var i = 0; i < output.length; i++) {
             console.log(output[i]);
         }
-        spotify.search({ type: 'track', query: output[1], limit: 1 }, function (err, data) {
-            if (err) {
-                return console.log('Error occurred: ' + err);
-            }
-            for (var i = 0; i < data.tracks.items.length; i++) {
-                var songData = data.tracks.items[i];
-                console.log("Artist: " + songData.artists[0].name);
-                console.log("Song Title: " + songData.name);
-                console.log("Preview Track: " + songData.preview_url);
-                console.log("Album: " + songData.album.name);
-            }
-        })
+        if(output[0] === 'spotify-this-song') {
+            multWord = output[1];
+            spotifySong();
+        }
+        
 
     });
 }
+// fs.appendFile('log.txt', 'data to append', function (err) {
+//     if (err) throw err;
+//     console.log('Saved!');
+//   });
