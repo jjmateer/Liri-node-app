@@ -22,6 +22,8 @@ The movie search uses the omdb api to search a movie title using an axios reques
                                                                                                            IMDB rating, 
                                                                                                            Plot, 
                                                                                                            Actors                                                                                                           
+                                                                                                           
+                                                                                                           
 The 'do what I say' function reads the random.txt file and uses the string "I want it that way" for the spotifySearch function. This function is the same as the one in the spotify search above, but does not require to input a song name.                                                                                                      
                                                                                                     
 
