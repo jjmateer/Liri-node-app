@@ -4,7 +4,7 @@ moment().format();
 var axios = require("axios");
 var keys = require("./keys.js");
 var Spotify = require('node-spotify-api');
-var request = require("request");
+// var request = require("request");
 var fs = require("fs");
 var spotify = new Spotify(keys.spotify);
 var nodeArgs = process.argv;
@@ -104,7 +104,3 @@ function doWhatSay() {
 
     });
 }
-// fs.appendFile('log.txt', 'data to append', function (err) {
-//     if (err) throw err;
-//     console.log('Saved!');
-//   });
